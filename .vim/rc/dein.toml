@@ -1,0 +1,201 @@
+# dein.vim itself
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+# vimproc.vim for asynchronus execution library
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+hook_post_update = '''
+if dein#util#_is_windows()
+  let cmd = 'tools\\update-dll-mingw'
+elseif dein#util#_is_cygwin()
+  let cmd = 'make -f make_cygwin.mak'
+elseif excutable('gmake')
+  let cmd = 'gmake'
+else
+  let cmd = 'make'
+endif
+let g:dein#plugin.build = cmd
+'''
+
+# --------------------------------------------
+# python settings (IMPORTANT)
+# --------------------------------------------
+[[plugins]]
+repo = 'lambdalisue/vim-pyenv'
+depends = ['davidhalter/jedi-vim']
+
+[[plugins]]
+repo = 'davidhalter/jedi-vim'
+
+
+# --------------------------------------------
+# original settings
+# --------------------------------------------
+
+# color scheme lucario
+[[plugins]]
+repo = 'raphamorim/lucario'
+hook_add = '''
+au MyAutoCmd VimEnter * nested colorscheme lucario
+au MyAutoCmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
+au MyAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
+au MyAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
+'''
+
+# lightline.vim
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+hook_add = '''
+let g:lightline = {
+  \ 'colorscheme': 'powerline',
+  \ 'active': {
+    \ 'left': [ ['mode', 'paste'], ['gitbranch', 'readonly', 'filepath', 'modified'] ],
+    \ 'right': [ ['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype'], ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok'] ]
+  \ },
+  \ 'component_function': {
+    \ 'filepath': 'FilePath',
+    \ 'gitbranch': 'fugitive#head',
+  \ }
+\ }
+
+function! FilePath()
+  if winwidth(0) > 90
+    return expand("%:s")
+  else
+    return expand("%:t")
+  endif
+endfunction
+
+set laststatus=2 " show status line alway
+set noshowmode " disable default previewing current mode function
+set showcmd " show command input under status line
+'''
+
+# asynchronus syntax checker
+[[plugins]]
+repo = 'w0rp/ale'
+hook_add = '''
+let g:dein#install_process_timeout = 600
+let g:ale_linters = {
+    \ 'javascript': ['eslint'],
+    \ 'python': ['flake8'],
+    \ 'tex': ['textlint'],
+    \ 'markdown': ['textlint'],
+    \ 'css': ['stylelint'],
+    \}
+let g:ale_fixers = {
+    \ 'python': ['autopep8', 'isort'],
+    \ }
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_enter = 0
+let g:ale_sign_column_always = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 1
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_set_highlights = 0
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
+nmap <silent> <C-j> <Plug>(ale_previous_wrap)
+nmap <silent> <C-k> <Plug>(ale_next_wrap)
+'''
+
+# ale to lightline.vim
+[[plugins]]
+repo = 'maximbaz/lightline-ale'
+depends = ['lightline.vim', 'ale']
+hook_add = '''
+let g:lightline.component_expand = {
+    \ 'linter_checking': 'lightline#ale#checking',
+    \ 'linter_warnings': 'lightline#ale#warnings',
+    \ 'linter_errors': 'lightline#ale#errors',
+    \ 'linter_ok': 'lightline#ale#ok',
+    \ }
+let g:lightline.component_type = {
+    \ 'linter_checking': 'left',
+    \ 'linter_warnings': 'warning',
+    \ 'linter_errors': 'error',
+    \ 'linter_ok': 'left',
+    \ }
+let g:lightline#ale#indicator_checking = 'Checking...'
+let g:lightline#ale#indicator_warnings = 'Warning: '
+let g:lightline#ale#indicator_errors = 'Error: '
+let g:lightline#ale#indicator_ok = 'OK'
+'''
+
+# git wrapper
+[[plugins]]
+repo = 'tpope/vim-fugitive'
+hook_add = '''
+nnoremap <silent> <Leader>gb :Gblame<CR>
+nnoremap <silent> <Leader>gd :Gdiff<CR>
+nnoremap <silent> <Leader>gs :Gstatus<CR>
+nnoremap <silent> <Leader>gw :Gwrite<CR>
+nnoremap <silent> <Leader>gc :Gcommit-v<CR>
+nnoremap <silent> <Leader>gr :Gread<CR>
+'''
+
+# git diff preview plugin
+[[plugins]]
+repo = 'airblade/vim-gitgutter'
+hook_add = '''
+if exists('&signcolumn')
+    set signcolumn=yes
+else
+    let g:gitgutter_sign_cloumn_always = 1
+endif
+set updatetime=1000
+nnoremap [gitgutter] <Nop>
+nmap <C-h> [gitgutter]
+nmap [gitgutter]j <Plug>GitGutterNextHunk
+nmap [gitgutter]k <Plug>GitGutterPrevHunk
+nmap <Leader>hs <Plug>GitGutterStageHunk
+nmap <Leader>hu <Plug>GitGutterUndoHunk
+nmap <Leader>hp <Plug>GitGutterPreviewHunk
+'''
+
+# visible indent line
+[[plugins]]
+repo = 'Yggdroot/indentLine'
+hook_add = '''
+set list listchars=tab:\¦\
+let g:indentLine_color_term = 243
+'''
+
+# treeview for vim
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+nnoremap <silent> <C-n> :NERDTreeToggle<CR>
+'''
+
+# comment out plugin
+[[plugins]]
+repo = 'tomtom/tcomment_vim'
+
+# enclosure
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+# repeat plugin command
+[[plugins]]
+repo = 'tpope/vim-repeat'
+
+# stylish replace
+[[plugins]]
+repo = 'osyo-manga/vim-over'
+hook_add = '''
+nnoremap <silent> <Leader>// :OverCommandLine<CR>%s/
+nnoremap <silent> <Leader>sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+'''
+
+# vim cheatsheat
+[[plugins]]
+repo = 'reireias/vim-cheatsheet'
+hook_add = '''
+let g:cheatsheet#cheat_file = '$HOME/.vim/.jum_cheatsheet.md'
+'''
+
+# next step
+# 'kana/vim-operator-user', 'kana/vim-textobj-user'

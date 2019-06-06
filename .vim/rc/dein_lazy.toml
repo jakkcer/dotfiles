@@ -1,0 +1,82 @@
+# autocompletion plugin deoplete.nvim
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
+on_event = ['InsertEnter']
+hook_source = '''
+let g:deoplete#enable_at_startup=1
+let g:deoplete#enable_yarp=1
+let g:deoplete#auto_complete_delay=0
+let g:deoplete#auto_complete_start_length=1
+let g:deoplete#enable_camel_case=0
+let g:deoplete#enable_ignore_case=0
+let g:deoplete#enable_refresh_always=0
+let g:deoplete#enable_smart_case=1
+let g:deoplete#file#enable_buffer_path=1
+let g:deoplete#max_list=10000
+inoremap <expr><tab> pumvisible() ? "\<C-n>" :
+  \ neosnippet#expandable_or_jumpable() ?
+  \   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+'''
+
+# deoplete requirements
+[[plugins]]
+repo = 'roxma/nvim-yarp'
+
+[[plugins]]
+repo = 'roxma/vim-hug-neovim-rpc'
+
+# snippet preset plugin neosnippet.vim
+[[plugins]]
+repo = 'Shougo/neosnippet.vim'
+depends = ['neosnippet-snippets', 'context_filetype.vim']
+on_event = ['InsertEnter']
+hook_source = '''
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap". It uses <Plug> mappings.
+"imap <C-k> <Plug>(neosnippet_expand_or_jump)
+"smap <C-k> <Plug>(neosnippet_expand_or_jump)
+"xmap <C-k> <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be 'imap' and 'smap'. It uses <Plug> mappings.
+imap <expr><TAB>
+\ pumvisible() ? "\<C-n>" :
+\ neosnippet#expandable_or_jumpable() ?
+\   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+imap <expr><CR>
+\ (pumvisible() && neosnippet#expandable_or_jumpable()) ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+"if has('conceal')
+"  set conceallevel=2 concealcursor=niv
+"endif
+'''
+
+# snippet presets
+[[plugins]]
+repo = 'Shougo/neosnippet-snippets'
+
+[[plugins]]
+repo = 'Shougo/context_filetype.vim'
+
+# resize window
+[[plugins]]
+repo = 'simeji/winresizer'
+on_event = ['WinNew']
+hook_source = '''
+let g:winresizer_vert_resize = 1
+let g:winresizer_horiz_resize = 1
+'''
+
+# html tag completion
+[[plugins]]
+repo = 'alvan/vim-closetag'
+on_ft = ['html', 'javascript']
+hook_source = '''
+let g:closetag_filenames = '*.html,*.jsx'
+'''
