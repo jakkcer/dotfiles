@@ -39,6 +39,11 @@ repo = 'raphamorim/lucario'
 hook_add = '''
 au MyAutoCmd VimEnter * nested colorscheme lucario
 au MyAutoCmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
+au MyAutoCmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
+au MyAutoCmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
+au MyAutoCmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
+au MyAutoCmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
+au MyAutoCmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
 au MyAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
 au MyAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
 '''
@@ -80,7 +85,7 @@ let g:dein#install_process_timeout = 600
 let g:ale_linters = {
     \ 'javascript': ['eslint'],
     \ 'python': ['flake8'],
-    \ 'tex': ['textlint'],
+    \ 'tex': ['chktex'],
     \ 'markdown': ['textlint'],
     \ 'css': ['stylelint'],
     \}

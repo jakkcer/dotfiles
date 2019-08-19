@@ -80,3 +80,54 @@ on_ft = ['html', 'javascript']
 hook_source = '''
 let g:closetag_filenames = '*.html,*.jsx'
 '''
+
+[[plugins]]
+repo = 'mattn/emmet-vim'
+on_ft = ['html', 'javascript', 'css']
+
+# for js setting
+[[plugins]]
+repo = 'pangloss/vim-javascript'
+on_ft = ['javascript']
+
+[[plugins]]
+repo = 'othree/yajs.vim'
+on_ft = ['javascript']
+
+[[plugins]]
+repo = 'MaxMEllon/vim-jsx-pretty'
+on_ft = ['javascript']
+
+[[plugins]]
+repo = 'othree/es.next.syntax.vim'
+on_ft = ['javascript']
+
+[[plugins]]
+repo = 'othree/javascript-libraries-syntax.vim'
+on_ft = ['javascript']
+hook_source = '''
+let g:used_javascript_libs = 'jquery,react'
+let b:javascript_lib_use_jquery = 1
+let b:javascript_lib_use_react = 1
+'''
+
+# js autocompletion
+[[plugins]]
+repo = 'ternjs/tern_for_vim'
+on_ft = ['javascript']
+build = 'npm install'
+
+# html highlight
+[[plugins]]
+repo = 'othree/html5.vim'
+on_ft = ['html']
+
+# css highlight
+[[plugins]]
+repo = 'hail2u/vim-css3-syntax'
+on_ft = ['css']
+
+# latex setting
+[[plugins]]
+repo = 'lervag/vimtex'
+on_ft = ['tex']

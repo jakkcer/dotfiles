@@ -198,3 +198,8 @@ nnoremap <Leader>wl <C-w>l  " move window to right
 nnoremap Y y$  " yank from cursor position
 nnoremap <C-h> :<C-u>help<Leader>
 nnoremap <C-h><C-h> :<C-u>help<Leader><C-r><C-w>
+
+"------------------------------------------
+" change vim default setting
+"------------------------------------------
+let g:tex_conceal=''
