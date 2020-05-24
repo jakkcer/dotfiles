@@ -29,10 +29,10 @@ endfunction
 call IncludePath(expand('~/.pyenv/shims'))
 
 "------------------------------------------
-" autocmd setting
+" initial autocmd setting
 "------------------------------------------
-augroup MyAutoCmd
-    autocmd!
+augroup InitAutoCmd
+  autocmd!
 augroup END
 
 "------------------------------------------
@@ -108,11 +108,8 @@ set softtabstop=2 " moving width of cursor for continuous spaces or tabs
 set autoindent " continue indent when indention
 set smartindent " check prev line indent and set new line indent properly
 set shiftwidth=2 " width of indent used in smartindent
-
-augroup fileTypeIndent
-    autocmd!
-    autocmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
-augroup END
+" set python indent
+autocmd InitAutoCmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
 
 "------------------------------------------
 " string search
@@ -156,18 +153,23 @@ set history=100 " memory number of command
 set nobackup
 
 "------------------------------------------
+" swapfile setting
+"------------------------------------------
+set directory=~/.vim/swp
+
+"------------------------------------------
 " enable mouse
 "------------------------------------------
-"if has('mouse')
-"    set mouse=a
-"    if has('mouse_sgr')
-"        set ttymouse=sgr
-"    elseif v:version > 703 || v:version is 703 && has('patch632')
-"        set ttymouse=sgr
-"    else
-"        set ttymouse=xterm2
-"    endif
-"endif
+if has('mouse')
+    set mouse=a
+    if has('mouse_sgr')
+        set ttymouse=sgr
+    elseif v:version > 703 || v:version is 703 && has('patch632')
+        set ttymouse=sgr
+    else
+        set ttymouse=xterm2
+    endif
+endif
 
 "------------------------------------------
 " paste setting
@@ -203,3 +205,69 @@ nnoremap <C-h><C-h> :<C-u>help<Leader><C-r><C-w>
 " change vim default setting
 "------------------------------------------
 let g:tex_conceal=''
+
+"------------------------------------------
+" HTML 5 tags
+"------------------------------------------
+syn keyword htmlTagName contained article aside audio bb canvas command
+syn keyword htmlTagName contained datalist details dialog embed figure
+syn keyword htmlTagName contained header hgroup keygen mark meter nav output
+syn keyword htmlTagName contained progress time ruby rt rp section time
+syn keyword htmlTagName contained source figcaption
+syn keyword htmlArg contained autofocus autocomplete placeholder min max
+syn keyword htmlArg contained contenteditable contextmenu draggable hidden
+syn keyword htmlArg contained itemprop list sandbox subject spellcheck
+syn keyword htmlArg contained novalidate seamless pattern formtarget
+syn keyword htmlArg contained formaction formenctype formmethod
+syn keyword htmlArg contained sizes scoped async reversed sandbox srcdoc
+syn keyword htmlArg contained hidden role
+syn match   htmlArg "\<\(aria-[\-a-zA-Z0-9_]\+\)=" contained
+syn match   htmlArg contained "\s*data-[-a-zA-Z0-9_]\+"
+
+"------------------------------------------
+" filetype setting
+"------------------------------------------
+au InitAutoCmd BufRead,BufNewFile *.tsx set filetype=typescript.tsx
+
+"------------------------------------------
+" custom functions
+"------------------------------------------
+
+" get syntax info under cursor
+function! s:get_syn_id(transparent)
+  let synid = synID(line("."), col("."), 1)
+  if a:transparent
+    return synIDtrans(synid)
+  else
+    return synid
+  endif
+endfunction
+function! s:get_syn_attr(synid)
+  let name = synIDattr(a:synid, "name")
+  let ctermfg = synIDattr(a:synid, "fg", "cterm")
+  let ctermbg = synIDattr(a:synid, "bg", "cterm")
+  let guifg = synIDattr(a:synid, "fg", "gui")
+  let guibg = synIDattr(a:synid, "bg", "gui")
+  return {
+        \ "name": name,
+        \ "ctermfg": ctermfg,
+        \ "ctermbg": ctermbg,
+        \ "guifg": guifg,
+        \ "guibg": guibg}
+endfunction
+function! s:get_syn_info()
+  let baseSyn = s:get_syn_attr(s:get_syn_id(0))
+  echo "name: " . baseSyn.name .
+        \ " ctermfg: " . baseSyn.ctermfg .
+        \ " ctermbg: " . baseSyn.ctermbg .
+        \ " guifg: " . baseSyn.guifg .
+        \ " guibg: " . baseSyn.guibg
+  let linkedSyn = s:get_syn_attr(s:get_syn_id(1))
+  echo "link to"
+  echo "name: " . linkedSyn.name .
+        \ " ctermfg: " . linkedSyn.ctermfg .
+        \ " ctermbg: " . linkedSyn.ctermbg .
+        \ " guifg: " . linkedSyn.guifg .
+        \ " guibg: " . linkedSyn.guibg
+endfunction
+command! SyntaxInfo call s:get_syn_info()

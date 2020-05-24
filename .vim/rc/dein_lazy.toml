@@ -5,18 +5,23 @@ depends = ['nvim-yarp', 'vim-hug-neovim-rpc']
 on_event = ['InsertEnter']
 hook_source = '''
 let g:deoplete#enable_at_startup=1
-let g:deoplete#enable_yarp=1
-let g:deoplete#auto_complete_delay=0
-let g:deoplete#auto_complete_start_length=1
-let g:deoplete#enable_camel_case=0
-let g:deoplete#enable_ignore_case=0
-let g:deoplete#enable_refresh_always=0
-let g:deoplete#enable_smart_case=1
-let g:deoplete#file#enable_buffer_path=1
-let g:deoplete#max_list=10000
-inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-  \ neosnippet#expandable_or_jumpable() ?
-  \   "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
+call deoplete#custom#option({
+\ 'auto_complete_delay': 100,
+\ 'ignore_case': v:false,
+\ 'max_list': 100,
+\ 'refresh_always': v:false,
+\ 'smart_case': v:true,
+\ 'yarp': v:true,
+\ })
+inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<tab>"
+imap <expr><CR>
+\ (pumvisible() && neosnippet#expandable_or_jumpable()) ?
+\   "\<Plug>(neosnippet_expand)" : "<C-r>=<SID>my_cr_function()<CR>"
+function! s:my_cr_function() abort
+  return deoplete#close_popup() . "\<CR>"
+endfunction
+"au InitAutoCmd InsertLeave,CompleteDone * if pumvisible() == 0 | silent! pclose() | endif
+set completeopt-=preview
 '''
 
 # deoplete requirements
@@ -26,6 +31,11 @@ repo = 'roxma/nvim-yarp'
 [[plugins]]
 repo = 'roxma/vim-hug-neovim-rpc'
 
+# completion using syntax
+[[plugins]]
+repo = 'Shougo/neco-syntax'
+on_event = ['InsertEnter']
+
 # snippet preset plugin neosnippet.vim
 [[plugins]]
 repo = 'Shougo/neosnippet.vim'
@@ -34,27 +44,27 @@ on_event = ['InsertEnter']
 hook_source = '''
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap". It uses <Plug> mappings.
-"imap <C-k> <Plug>(neosnippet_expand_or_jump)
-"smap <C-k> <Plug>(neosnippet_expand_or_jump)
-"xmap <C-k> <Plug>(neosnippet_expand_target)
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
 " Note: It must be 'imap' and 'smap'. It uses <Plug> mappings.
-imap <expr><TAB>
-\ pumvisible() ? "\<C-n>" :
-\ neosnippet#expandable_or_jumpable() ?
-\   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"imap <expr><TAB>
+"\ pumvisible() ? "\<C-n>" :
+"\ neosnippet#expandable_or_jumpable() ?
+"\   "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
-imap <expr><CR>
-\ (pumvisible() && neosnippet#expandable_or_jumpable()) ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
+"imap <expr><CR>
+"\ (pumvisible() && neosnippet#expandable_or_jumpable()) ? "\<Plug>(neosnippet_expand_or_jump)" : "\<CR>"
 
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+"\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " For conceal markers.
-"if has('conceal')
-"  set conceallevel=2 concealcursor=niv
-"endif
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 '''
 
 # snippet presets
@@ -76,19 +86,20 @@ let g:winresizer_horiz_resize = 1
 # html tag completion
 [[plugins]]
 repo = 'alvan/vim-closetag'
-on_ft = ['html', 'javascript']
+on_ft = ['html', 'javascript', 'typescript.tsx']
 hook_source = '''
-let g:closetag_filenames = '*.html,*.jsx'
+let g:closetag_filenames = '*.html,*.jsx,*.js,*.tsx'
+let g:closetag_xhtml_filenames = '*.jsx,*.js,*.tsx'
 '''
 
 [[plugins]]
 repo = 'mattn/emmet-vim'
-on_ft = ['html', 'javascript', 'css']
+on_ft = ['html', 'javascript', 'typescript', 'css']
 
-# for js setting
+# js setting
 [[plugins]]
 repo = 'pangloss/vim-javascript'
-on_ft = ['javascript']
+on_ft = ['html', 'javascript']
 
 [[plugins]]
 repo = 'othree/yajs.vim'
@@ -96,7 +107,7 @@ on_ft = ['javascript']
 
 [[plugins]]
 repo = 'MaxMEllon/vim-jsx-pretty'
-on_ft = ['javascript']
+on_ft = ['javascript', 'typescript']
 
 [[plugins]]
 repo = 'othree/es.next.syntax.vim'
@@ -117,6 +128,11 @@ repo = 'ternjs/tern_for_vim'
 on_ft = ['javascript']
 build = 'npm install'
 
+# ts setting
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_ft = ['typescript']
+
 # html highlight
 [[plugins]]
 repo = 'othree/html5.vim'
@@ -125,7 +141,7 @@ on_ft = ['html']
 # css highlight
 [[plugins]]
 repo = 'hail2u/vim-css3-syntax'
-on_ft = ['css']
+on_ft = ['html', 'css', 'javascript']
 
 # latex setting
 [[plugins]]
