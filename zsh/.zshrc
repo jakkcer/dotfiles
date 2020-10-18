@@ -42,3 +42,8 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# go path setting
+export PATH="$HOME/go/bin:$PATH"
+
+# latex path setting
+export PATH="/usr/local/texlive/2018/bin/x86_64-darwin:$PATH"
