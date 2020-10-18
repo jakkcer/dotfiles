@@ -95,7 +95,7 @@ endif
 set fileencoding=utf-8 " encoding for saving file
 set fileencodings=ucs-boms,utf-8,euc-jp,cp932 " detect encoding automatically when reading file, left has priority
 set fileformats=unix,dos,mac " detect newline char automatically, left prior
-set ambiwidth=double " treat ambiguous char as double width
+set ambiwidth=single " treat ambiguous char as single width
 set list " show unvisible char
 
 "------------------------------------------
@@ -109,7 +109,9 @@ set autoindent " continue indent when indention
 set smartindent " check prev line indent and set new line indent properly
 set shiftwidth=2 " width of indent used in smartindent
 " set python indent
-autocmd InitAutoCmd BufNewFile,BufRead *.py setlocal tabstop=4 softtabstop=4 shiftwidth=4
+autocmd InitAutoCmd BufNewFile,BufRead *.py,*.sh setlocal tabstop=4 softtabstop=4 shiftwidth=4
+" set go tab
+autocmd InitAutoCmd BufNewFile,BufRead *.go setlocal noexpandtab
 
 "------------------------------------------
 " string search
@@ -119,7 +121,7 @@ set ignorecase " ignore capital/small case when search string
 set smartcase " if search pattern include capital case, distinct capital/small case
 set hlsearch " highlight search words
 " switch higlight or not
-nnoremap <silent><Esc><Esc> :<C-u>set noslsearch<CR>
+nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 
 "------------------------------------------
 " cursor
@@ -192,14 +194,15 @@ endif
 "------------------------------------------
 " key mapping
 "------------------------------------------
-nnoremap <CR> o<ESC>  " start new line with return key
+nnoremap <Leader><CR> o<ESC>  " start new line with return key
 nnoremap <Leader>wh <C-w>h  " move window to left
 nnoremap <Leader>wj <C-w>j  " move window to down
 nnoremap <Leader>wk <C-w>k  " move window to up
 nnoremap <Leader>wl <C-w>l  " move window to right
+nnoremap <Leader>wx <C-w>x  " switch window and next window
 nnoremap Y y$  " yank from cursor position
-nnoremap <C-h> :<C-u>help<Leader>
-nnoremap <C-h><C-h> :<C-u>help<Leader><C-r><C-w>
+nnoremap <C-h> :<C-u>vert<Space>help<Space>
+nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w>
 
 "------------------------------------------
 " change vim default setting

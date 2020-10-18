@@ -19,17 +19,6 @@ let g:dein#plugin.build = cmd
 '''
 
 # --------------------------------------------
-# python settings (IMPORTANT)
-# --------------------------------------------
-[[plugins]]
-repo = 'lambdalisue/vim-pyenv'
-depends = ['davidhalter/jedi-vim']
-
-[[plugins]]
-repo = 'davidhalter/jedi-vim'
-
-
-# --------------------------------------------
 # original settings
 # --------------------------------------------
 
@@ -37,14 +26,18 @@ repo = 'davidhalter/jedi-vim'
 [[plugins]]
 repo = 'raphamorim/lucario'
 hook_add = '''
-au InitAutoCmd VimEnter * nested colorscheme lucario
-au InitAutoCmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
-au InitAutoCmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
-au InitAutoCmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
-au InitAutoCmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
-au InitAutoCmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
-au InitAutoCmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
-au InitAutoCmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
+augroup LucarioSetting
+  autocmd!
+  autocmd VimEnter * nested colorscheme lucario
+  autocmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
+  autocmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
+  autocmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
+  autocmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
+  autocmd VimEnter * highlight Search cterm=NONE ctermfg=23 ctermbg=186 gui=NONE guifg=#2b3e50 guibg=#e6db74
+augroup END
 au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
 au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
 '''
@@ -53,81 +46,119 @@ au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
 [[plugins]]
 repo = 'itchyny/lightline.vim'
 hook_add = '''
+set laststatus=2  " show status line alway
+set showtabline=2  " show tab line alway
+set noshowmode  " disable default previewing current mode function
+set showcmd  " show command input under status line
+
 let g:lightline = {
   \ 'colorscheme': 'powerline',
   \ 'active': {
-    \ 'left': [ ['mode', 'paste'], ['gitbranch', 'readonly', 'filepath', 'modified'] ],
-    \ 'right': [ ['lineinfo'], ['percent'], ['fileformat', 'fileencoding', 'filetype'], ['linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok'] ]
+  \   'left': [ ['mode', 'paste'],
+  \             ['fugitive', 'readonly', 'filepath', 'modified'] ],
+  \   'right': [ ['lineinfo'],
+  \              ['percent'],
+  \              ['fileformat', 'fileencoding', 'filetype'],
+  \              ['lsp_errors', 'lsp_warnings', 'lsp_ok'] ]
+  \ },
+  \ 'inactive': {
+  \   'left': [ ['fugitive', 'readonly', 'filepath', 'modified'] ],
+  \   'right': [ ['lineinfo'],
+  \              ['fileformat', 'fileencoding', 'filetype'] ]
   \ },
   \ 'component_function': {
-    \ 'filepath': 'FilePath',
-    \ 'gitbranch': 'fugitive#head',
-  \ }
+  \   'readonly': 'LightlineReadonly',
+  \   'filepath': 'FilePath',
+  \   'filetype': 'LightlineFiletype',
+  \   'fileformat': 'LightlineFileformat',
+  \   'modified': 'LightlineModified',
+  \   'fugitive': 'LightlineFugitive'
+  \ },
+  \ 'component_expand': {
+  \   'lsp_warnings': 'LightlineLSPWarnings',
+  \   'lsp_errors': 'LightlineLSPErrors',
+  \   'lsp_ok': 'LightlineLSPOk',
+  \ },
+  \ 'component_type': {
+  \   'lsp_warnings': 'warning',
+  \   'lsp_errors': 'error',
+  \   'lsp_ok': 'left',
+  \ },
+  \ 'separator': { 'left': '', 'right': '' },
+  \ 'subseparator': { 'left': '', 'right': '' }
 \ }
 
 function! FilePath()
-  if winwidth(0) > 90
+  if winwidth(0) > 80
     return expand("%:s")
   else
     return expand("%:t")
   endif
 endfunction
 
-set laststatus=2 " show status line alway
-set noshowmode " disable default previewing current mode function
-set showcmd " show command input under status line
+function! LightlineModified()
+  return &modifiable && &modified ? '+' : ''
+endfunction
+
+function! LightlineReadonly()
+  return &readonly ? '' : ''
+endfunction
+
+function! LightlineFiletype()
+  return winwidth(0) > 100 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+endfunction
+
+function! LightlineFileformat()
+  return winwidth(0) > 100 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+endfunction
+
+function! LightlineFugitive()
+  if exists('*FugitiveHead')
+    let branch = FugitiveHead()
+    return branch !=# '' ? ' '.branch : ''
+  endif
+  return ''
+endfunction
+
+" vim-lsp diagnostic setting
+function! LightlineLSPWarnings() abort
+  let l:counts = lsp#ui#vim#diagnostics#get_buffer_diagnostics_counts()
+  return l:counts.warning == 0 ? '' : printf('Warning:%d', l:counts.warning)
+endfunction
+
+function! LightlineLSPErrors() abort
+  let l:counts = lsp#ui#vim#diagnostics#get_buffer_diagnostics_counts()
+  return l:counts.error == 0 ? '' : printf('Error:%d', l:counts.error)
+endfunction
+
+function! LightlineLSPOk() abort
+  let l:counts =  lsp#ui#vim#diagnostics#get_buffer_diagnostics_counts()
+  let l:total = l:counts.error + l:counts.warning
+  return l:total == 0 ? 'OK' : ''
+endfunction
+
+augroup LightLineOnLSP
+  autocmd!
+  autocmd User lsp_diagnostics_updated call lightline#update()
+augroup END
 '''
 
-# asynchronus syntax checker
+# vim devicons
 [[plugins]]
-repo = 'w0rp/ale'
-hook_add = '''
-let g:dein#install_process_timeout = 600
-let g:ale_linters = {
-    \ 'javascript': ['eslint'],
-    \ 'python': ['flake8'],
-    \ 'tex': ['chktex'],
-    \ 'markdown': ['textlint'],
-    \ 'css': ['stylelint'],
-    \}
-let g:ale_fixers = {
-    \ 'python': ['autopep8', 'isort'],
-    \ }
-let g:ale_fix_on_save = 1
-let g:ale_lint_on_enter = 0
-let g:ale_sign_column_always = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 1
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
-let g:ale_set_highlights = 0
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
-nmap <silent> <C-j> <Plug>(ale_previous_wrap)
-nmap <silent> <C-k> <Plug>(ale_next_wrap)
-'''
+repo = 'ryanoasis/vim-devicons'
 
-# ale to lightline.vim
+# NERDTree syntax highlight with devicons
 [[plugins]]
-repo = 'maximbaz/lightline-ale'
-depends = ['lightline.vim', 'ale']
+repo = 'tiagofumo/vim-nerdtree-syntax-highlight'
+depends = ['vim-devicons']
 hook_add = '''
-let g:lightline.component_expand = {
-    \ 'linter_checking': 'lightline#ale#checking',
-    \ 'linter_warnings': 'lightline#ale#warnings',
-    \ 'linter_errors': 'lightline#ale#errors',
-    \ 'linter_ok': 'lightline#ale#ok',
-    \ }
-let g:lightline.component_type = {
-    \ 'linter_checking': 'left',
-    \ 'linter_warnings': 'warning',
-    \ 'linter_errors': 'error',
-    \ 'linter_ok': 'left',
-    \ }
-let g:lightline#ale#indicator_checking = 'Checking...'
-let g:lightline#ale#indicator_warnings = 'Warning: '
-let g:lightline#ale#indicator_errors = 'Error: '
-let g:lightline#ale#indicator_ok = 'OK'
+let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
+let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 '''
 
 # git wrapper
@@ -202,6 +233,76 @@ repo = 'reireias/vim-cheatsheet'
 hook_add = '''
 let g:cheatsheet#cheat_file = '$HOME/.vim/vim_cheat.md'
 '''
+
+# vim-lsp
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+merged = '0'
+hook_add = '''
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_signs_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_preview_float = 1
+let g:lsp_text_edit_enabled = 0
+let g:lsp_async_completion = 1
+let g:lsp_diagnostics_float_cursor = 1
+
+augroup LspAutoFromatting
+  autocmd!
+  autocmd BufWritePre *.py LspDocumentFormatSync
+augroup END
+
+" let g:lsp_log_verbose = 1
+" let g:lsp_log_file = expand('~/.vim/log/vim-lsp.log')
+
+" mappings
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete 
+  nmap <silent> ]e <plug>(lsp-next-error)
+  nmap <silent> [e <plug>(lsp-previous-error)
+  nmap <silent> ]w <plug>(lsp-next-warning)
+  nmap <silent> [w <plug>(lsp-previous-warning)
+
+  nnoremap [vim-lsp] <Nop>
+  nmap <Leader>l [vim-lsp]
+
+  nmap [vim-lsp]d :vs<CR><plug>(lsp-definition)
+  nmap [vim-lsp]a <plug>(lsp-code-action)
+  nmap [vim-lsp]g <plug>(lsp-document-diagnostics)
+  nmap [vim-lsp]s <plug>(lsp-status)
+  nmap [vim-lsp]r <plug>(lsp-rename)
+  nmap [vim-lsp]c <plug>(lsp-references)
+  nmap [vim-lsp]f <plug>(lsp-document-format)
+  nmap [vim-lsp]h <plug>(lsp-hover)
+  nmap [vim-lsp]t <plug>(lsp-type-definition)
+endfunction
+
+augroup lsp_install
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
+'''
+
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+merged = '0'
+
+# completion
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+hook_add = '''
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_min_chars = 3
+let g:asyncomplete_popup_delay = 100
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" let g:asyncomplete_log_file = expand('~/.vim/log/asyncomplete.log')
+'''
+
+[[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+depends = ['asyncomplete.vim', 'vim-lsp']
 
 # next step
 # 'kana/vim-operator-user', 'kana/vim-textobj-user'
