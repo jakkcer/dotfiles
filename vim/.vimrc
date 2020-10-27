@@ -274,3 +274,11 @@ function! s:get_syn_info()
         \ " guibg: " . linkedSyn.guibg
 endfunction
 command! SyntaxInfo call s:get_syn_info()
+
+" open current file in new tab
+nnoremap <C-m> :call OpenNewTab()<CR>
+function! OpenNewTab()
+  let current_file_name = expand("%:p")
+  execute ":q"
+  execute ":tabnew " . current_file_name
+endfunction
