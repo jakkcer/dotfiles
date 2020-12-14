@@ -202,9 +202,9 @@ let g:indentLine_color_term = 243
 
 # treeview for vim
 [[plugins]]
-repo = 'scrooloose/nerdtree'
+repo = 'preservim/nerdtree'
 hook_add = '''
-nnoremap <silent> <C-n> :NERDTreeToggle<CR>
+map <silent> <C-n> :NERDTreeToggle<CR>
 '''
 
 # comment out plugin
@@ -267,7 +267,8 @@ function! s:on_lsp_buffer_enabled() abort
   nmap <Leader>l [vim-lsp]
 
   nmap [vim-lsp]d <plug>(lsp-definition)
-  nmap [vim-lsp]v :vs<CR><plug>(lsp-definition)
+  nmap [vim-lsp]v :vert LspDefinition<CR>
+  nmap [vim-lsp]t :tab LspDefinition<CR>
   nmap [vim-lsp]p <plug>(lsp-peek-definition)
   nmap [vim-lsp]a <plug>(lsp-code-action)
   nmap [vim-lsp]g <plug>(lsp-document-diagnostics)
@@ -276,7 +277,7 @@ function! s:on_lsp_buffer_enabled() abort
   nmap [vim-lsp]c <plug>(lsp-references)
   nmap [vim-lsp]f <plug>(lsp-document-format)
   nmap [vim-lsp]h <plug>(lsp-hover)
-  nmap [vim-lsp]t <plug>(lsp-type-definition)
+  nmap [vim-lsp]y <plug>(lsp-type-definition)
 endfunction
 
 augroup lsp_install
