@@ -1,0 +1,90 @@
+"" Source your .vimrc
+"source ~/.vimrc
+
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+" set scrolloff=5
+
+" Do incremental searching.
+" set incsearch
+
+" Don't use Ex mode, use Q for formatting.
+" map Q gq
+
+
+"" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+"" Map \r to the Reformat Code action
+"map \r <Action>(ReformatCode)
+
+"" Map <leader>d to start debug
+"map <leader>d <Action>(Debug)
+
+"" Map \b to toggle the breakpoint on the current line
+"map \b <Action>(ToggleLineBreakpoint)
+
+
+" Find more examples here: https://jb.gg/share-ideavimrc
+
+"------------------------------------------
+" Leader setting
+"------------------------------------------
+let mapleader=" "
+
+"------------------------------------------
+" string search
+"------------------------------------------
+set incsearch
+set ignorecase
+set smartcase
+set hlsearch
+nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
+
+"------------------------------------------
+" cursor
+"------------------------------------------
+set whichwrap=b,s,h,l,<,>,[,],~
+set cursorline
+set scrolloff=7
+" if line is wraped, move cursor by viewed line
+nnoremap j gj
+nnoremap k gk
+nnoremap <down> gj
+nnoremap <up> gk
+
+"------------------------------------------
+" key setting
+"------------------------------------------
+set showmatch
+
+"------------------------------------------
+" command completion
+"------------------------------------------
+set wildmenu
+set history=100
+
+"------------------------------------------
+" key mapping
+"------------------------------------------
+nnoremap <Leader><CR> o<ESC>
+nnoremap <Leader>wh <C-w>h
+nnoremap <Leader>wj <C-w>j
+nnoremap <Leader>wk <C-w>k
+nnoremap <Leader>wl <C-w>l
+nnoremap <Leader>wx <C-w>x
+nnoremap <Leader>wv <C-w>t<C-w>H
+nnoremap <Leader>ws <C-w>t<C-w>K
+nnoremap <Leader>wt <C-w><CR><C-w>T
+nnoremap Y y$
+nnoremap <C-h> :<C-u>vert<Space>help<Space>
+nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w>
+
+nnoremap <Leader>lh :action ShowErrorDescription<CR>
+nnoremap <Leader>ld :action GotoDeclaration<CR>
+nnoremap <Leader>lv :vs<CR>:action GotoDeclaration<CR>
+nnoremap <Leader>lc :action FindUsages<CR>
+nnoremap ]e :action GotoNextError<CR>
+nnoremap [e :action GotoPreviousError<CR>
+
+inoremap <C-n> <C-o>:action HippieCompletion<CR>
+inoremap <C-p> <C-o>:action HippieBackwardCompletion<CR>
