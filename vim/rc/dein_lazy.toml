@@ -18,7 +18,7 @@ let g:winresizer_horiz_resize = 1
 
 [[plugins]]
 repo = 'mattn/emmet-vim'
-on_ft = ['html', 'javascript', 'typescript', 'css']
+on_ft = ['html', 'javascript', 'typescript', 'typescript.tsx', 'css']
 
 # js setting
 [[plugins]]
@@ -31,7 +31,7 @@ on_ft = ['javascript']
 
 [[plugins]]
 repo = 'MaxMEllon/vim-jsx-pretty'
-on_ft = ['javascript', 'typescript']
+on_ft = ['javascript', 'typescript', 'typescript.tsx']
 
 [[plugins]]
 repo = 'othree/es.next.syntax.vim'
@@ -53,9 +53,9 @@ on_ft = ['javascript']
 build = 'npm install'
 
 # ts setting
-[[plugins]]
-repo = 'leafgarland/typescript-vim'
-on_ft = ['typescript']
+# [[plugins]]
+# repo = 'leafgarland/typescript-vim'
+# on_ft = ['typescript']
 
 # html highlight
 [[plugins]]
@@ -65,7 +65,7 @@ on_ft = ['html']
 # css highlight
 [[plugins]]
 repo = 'hail2u/vim-css3-syntax'
-on_ft = ['html', 'css', 'javascript']
+on_ft = ['html', 'css', 'javascript', 'typescript.tsx']
 
 # latex setting
 [[plugins]]
@@ -94,3 +94,13 @@ let g:vimtex_view_general_options = '-r @line @pdf @tex'
 [[plugins]]
 repo = 'mattn/vim-goimports'
 on_ft = ['go']
+
+# kotlin setting
+[[plugins]]
+repo = 'udalov/kotlin-vim'
+on_ft = ['kotlin']
+
+# toml setting
+[[plugins]]
+repo = 'cespare/vim-toml'
+on_ft = ['toml']

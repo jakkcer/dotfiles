@@ -23,22 +23,33 @@ let g:dein#plugin.build = cmd
 # --------------------------------------------
 
 # color scheme lucario
+# [[plugins]]
+# repo = 'raphamorim/lucario'
+# hook_add = '''
+# augroup LucarioSetting
+#   autocmd!
+#   autocmd VimEnter * nested colorscheme lucario
+#   autocmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
+#   autocmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
+#   autocmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
+#   autocmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
+#   autocmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
+#   autocmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
+#   autocmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
+#   autocmd VimEnter * highlight Search cterm=NONE ctermfg=23 ctermbg=186 gui=NONE guifg=#2b3e50 guibg=#e6db74
+# augroup END
+# au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
+# au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
+# '''
+
 [[plugins]]
-repo = 'raphamorim/lucario'
+repo = 'dracula/vim'
 hook_add = '''
-augroup LucarioSetting
+augroup DraculaSetting
   autocmd!
-  autocmd VimEnter * nested colorscheme lucario
-  autocmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
-  autocmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
-  autocmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
-  autocmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
-  autocmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
-  autocmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
-  autocmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
-  autocmd VimEnter * highlight Search cterm=NONE ctermfg=23 ctermbg=186 gui=NONE guifg=#2b3e50 guibg=#e6db74
+  autocmd VimEnter * nested colorscheme dracula
 augroup END
-au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
+au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-dracula\x7"
 au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
 '''
 
@@ -249,7 +260,7 @@ let g:lsp_diagnostics_float_cursor = 1
 
 augroup LspAutoFromatting
   autocmd!
-  autocmd BufWritePre *.py LspDocumentFormatSync
+  autocmd BufWritePre *.py,*.go LspDocumentFormatSync
 augroup END
 
 " let g:lsp_log_verbose = 1
@@ -284,6 +295,8 @@ augroup lsp_install
   au!
   autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+autocmd! FileType qf nnoremap <buffer> <leader><Enter> <C-w><Enter><C-w>L
 '''
 
 [[plugins]]
@@ -313,6 +326,10 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 [[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
 depends = ['asyncomplete.vim', 'vim-lsp']
+
+# pairenthesis plugin
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'
 
 # next step
 # 'kana/vim-operator-user', 'kana/vim-textobj-user'
