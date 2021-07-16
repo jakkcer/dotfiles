@@ -76,6 +76,8 @@ if dein#load_state(s:dein_dir)
   call dein#save_state()
 endif
 
+" colorscheme dracula
+
 " Required:
 filetype plugin indent on
 syntax enable
@@ -109,7 +111,7 @@ set autoindent " continue indent when indention
 set smartindent " check prev line indent and set new line indent properly
 set shiftwidth=2 " width of indent used in smartindent
 " set python indent
-autocmd InitAutoCmd BufNewFile,BufRead *.py,*.sh setlocal tabstop=4 softtabstop=4 shiftwidth=4
+autocmd InitAutoCmd BufNewFile,BufRead *.py,*.sh,*.php setlocal tabstop=4 softtabstop=4 shiftwidth=4
 " set go tab
 autocmd InitAutoCmd BufNewFile,BufRead *.go setlocal noexpandtab
 
@@ -129,6 +131,7 @@ nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 set whichwrap=b,s,h,l,<,>,[,],~ " L/R cursor moves to next line head from prev line end
 set number " show line number
 set cursorline " highlight current line
+set scrolloff=7 " cursor scroll limit
 " if line is wraped, move cursor by viewed line
 nnoremap j gj
 nnoremap k gk
@@ -200,9 +203,18 @@ nnoremap <Leader>wj <C-w>j  " move window to down
 nnoremap <Leader>wk <C-w>k  " move window to up
 nnoremap <Leader>wl <C-w>l  " move window to right
 nnoremap <Leader>wx <C-w>x  " switch window and next window
+nnoremap <Leader>wv <C-w>t<C-w>H  " switch horizontal splitted window to vertical
+nnoremap <Leader>ws <C-w>t<C-w>K  " switch vertical splitted window to horizontal
+nnoremap <Leader>wt <C-w><CR><C-w>T " open file in new tab on quickfix
 nnoremap Y y$  " yank from cursor position
 nnoremap <C-h> :<C-u>vert<Space>help<Space>
 nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w>
+
+" qucikfix
+nnoremap [q :cprevious<CR> " go to previous result
+nnoremap ]q :cnext<CR> " go to next result
+nnoremap [Q :<C-u>cfirst<CR> " go to first result
+nnoremap ]Q :<C-u>clast<CR> " go to last result
 
 "------------------------------------------
 " change vim default setting
