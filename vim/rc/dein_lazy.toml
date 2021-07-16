@@ -88,6 +88,37 @@ let g:vimtex_compiler_latexmk = {
 let g:vimtex_view_general_viewer
   \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
 let g:vimtex_view_general_options = '-r @line @pdf @tex'
+
+" mappings: remap all default mappings with <localeader>l
+nnoremap [vimtex] <Nop>
+nmap <Leader>t [vimtex]
+
+nmap <silent><buffer><nowait> [vimtex]i <plug>(vimtex-info)
+nmap <silent><buffer><nowait> [vimtex]I <plug>(vimtex-info-full)
+nmap <silent><buffer><nowait> [vimtex]t <plug>(vimtex-toc-open)
+nmap <silent><buffer><nowait> [vimtex]T <plug>(vimtex-toc-toggle)
+nmap <silent><buffer><nowait> [vimtex]q <plug>(vimtex-log)
+nmap <silent><buffer><nowait> [vimtex]v <plug>(vimtex-view)
+nmap <silent><buffer><nowait> [vimtex]r <plug>(vimtex-reverse-search)
+nmap <silent><buffer><nowait> [vimtex]l <plug>(vimtex-compile)
+xmap <silent><buffer><nowait> [vimtex]L <plug>(vimtex-compile-selected)
+nmap <silent><buffer><nowait> [vimtex]k <plug>(vimtex-stop)
+nmap <silent><buffer><nowait> [vimtex]K <plug>(vimtex-stop-all)
+nmap <silent><buffer><nowait> [vimtex]e <plug>(vimtex-errors)
+nmap <silent><buffer><nowait> [vimtex]o <plug>(vimtex-compile-output)
+nmap <silent><buffer><nowait> [vimtex]g <plug>(vimtex-status)
+nmap <silent><buffer><nowait> [vimtex]G <plug>(vimtex-status-all)
+nmap <silent><buffer><nowait> [vimtex]c <plug>(vimtex-clean)
+nmap <silent><buffer><nowait> [vimtex]C <plug>(vimtex-clean-full)
+nmap <silent><buffer><nowait> [vimtex]m <plug>(vimtex-imaps-list)
+nmap <silent><buffer><nowait> [vimtex]x <plug>(vimtex-reload)
+nmap <silent><buffer><nowait> [vimtex]X <plug>(vimtex-reload-state)
+nmap <silent><buffer><nowait> [vimtex]s <plug>(vimtex-toggle-main)
+
+augroup VimtexSetting
+  autocmd!
+  autocmd BufReadPre *.tex let b:vimtex_main = 'main.tex'
+augroup END
 '''
 
 # golang setting
