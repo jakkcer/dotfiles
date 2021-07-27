@@ -23,33 +23,22 @@ let g:dein#plugin.build = cmd
 # --------------------------------------------
 
 # color scheme lucario
-# [[plugins]]
-# repo = 'raphamorim/lucario'
-# hook_add = '''
-# augroup LucarioSetting
-#   autocmd!
-#   autocmd VimEnter * nested colorscheme lucario
-#   autocmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
-#   autocmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
-#   autocmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
-#   autocmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
-#   autocmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
-#   autocmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
-#   autocmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
-#   autocmd VimEnter * highlight Search cterm=NONE ctermfg=23 ctermbg=186 gui=NONE guifg=#2b3e50 guibg=#e6db74
-# augroup END
-# au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
-# au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
-# '''
-
 [[plugins]]
-repo = 'dracula/vim'
+repo = 'raphamorim/lucario'
 hook_add = '''
-augroup DraculaSetting
+augroup LucarioSetting
   autocmd!
-  autocmd VimEnter * nested colorscheme dracula
+  autocmd VimEnter * nested colorscheme lucario
+  autocmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
+  autocmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
+  autocmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
+  autocmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
+  autocmd VimEnter * highlight Search cterm=NONE ctermfg=23 ctermbg=186 gui=NONE guifg=#2b3e50 guibg=#e6db74
 augroup END
-au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-dracula\x7"
+au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
 au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
 '''
 
