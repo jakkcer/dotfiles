@@ -289,6 +289,7 @@ function! s:on_lsp_buffer_enabled() abort
   nmap [vim-lsp]f <plug>(lsp-document-format)
   nmap [vim-lsp]h <plug>(lsp-hover)
   nmap [vim-lsp]y <plug>(lsp-type-definition)
+  nmap [vim-lsp]l <plug>(lsp-preview-focus)
 endfunction
 
 augroup lsp_install
