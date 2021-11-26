@@ -23,35 +23,36 @@ let g:dein#plugin.build = cmd
 # --------------------------------------------
 
 # color scheme lucario
-# [[plugins]]
-# repo = 'raphamorim/lucario'
-# hook_add = '''
-# augroup LucarioSetting
-#   autocmd!
-#   autocmd VimEnter * nested colorscheme lucario
-#   autocmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
-#   autocmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
-#   autocmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
-#   autocmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
-#   autocmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
-#   autocmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
-#   autocmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
-#   autocmd VimEnter * highlight Search cterm=NONE ctermfg=23 ctermbg=186 gui=NONE guifg=#2b3e50 guibg=#e6db74
-# augroup END
-# au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
-# au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
-# '''
-
 [[plugins]]
-repo = 'dracula/vim'
+repo = 'raphamorim/lucario'
 hook_add = '''
-augroup DraculaSetting
+augroup LucarioSetting
   autocmd!
-  autocmd VimEnter * nested colorscheme dracula
+  autocmd VimEnter * nested colorscheme lucario
+  autocmd VimEnter * highlight LineNr ctermbg=236 " set bg color of line number
+  autocmd VimEnter * highlight Type ctermfg=203 " set fg color of type char
+  autocmd VimEnter * highlight Special ctermfg=14 " set fg color of special char
+  autocmd VimEnter * highlight texMathZoneX ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight texMathZoneC ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight texMathMatcher ctermfg=10 " set fg color of latex equation
+  autocmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
+  autocmd VimEnter * highlight Search cterm=NONE ctermfg=23 ctermbg=186 gui=NONE guifg=#2b3e50 guibg=#e6db74
 augroup END
-au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-dracula\x7"
+
+au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
 au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
 '''
+
+# [[plugins]]
+# repo = 'dracula/vim'
+# hook_add = '''
+# augroup DraculaSetting
+#   autocmd!
+#   autocmd VimEnter * nested colorscheme dracula
+# augroup END
+# au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-dracula\x7"
+# au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
+# '''
 
 # lightline.vim
 [[plugins]]
@@ -134,7 +135,7 @@ endfunction
 " vim-lsp diagnostic setting
 function! LightlineLSPWarnings() abort
   let l:counts = lsp#get_buffer_diagnostics_counts()
-  return l:counts.warning == 0 ? '' : printf('Warning:%d', l:counts.warning)
+  return l:counts.hint == 0 ? '' : printf('Warning:%d', l:counts.warning)
 endfunction
 
 function! LightlineLSPErrors() abort
@@ -257,6 +258,14 @@ let g:lsp_preview_float = 1
 let g:lsp_text_edit_enabled = 0
 let g:lsp_async_completion = 1
 let g:lsp_diagnostics_float_cursor = 1
+
+" Folding
+" set foldmethod=expr
+"   \ foldexpr=lsp#ui#vim#folding#foldexpr()
+"   \ foldtext=lsp#ui#vim#folding#foldtext()
+"   \ foldcolumn=2
+"   \ foldlevel=99
+"   \ nofoldenable
 
 augroup LspAutoFromatting
   autocmd!
