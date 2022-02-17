@@ -135,7 +135,7 @@ endfunction
 " vim-lsp diagnostic setting
 function! LightlineLSPWarnings() abort
   let l:counts = lsp#get_buffer_diagnostics_counts()
-  return l:counts.hint == 0 ? '' : printf('Warning:%d', l:counts.warning)
+  return (l:counts.warning == 0 && l:counts.hint == 0) ? '' : printf('Warning:%d', l:counts.warning + l:counts.hint)
 endfunction
 
 function! LightlineLSPErrors() abort
@@ -145,7 +145,7 @@ endfunction
 
 function! LightlineLSPOk() abort
   let l:counts =  lsp#get_buffer_diagnostics_counts()
-  let l:total = l:counts.error + l:counts.warning
+  let l:total = l:counts.error + l:counts.warning + l:counts.hint
   return l:total == 0 ? 'OK' : ''
 endfunction
 
@@ -216,7 +216,8 @@ let g:indentLine_color_term = 243
 [[plugins]]
 repo = 'preservim/nerdtree'
 hook_add = '''
-map <silent> <C-n> :NERDTreeToggle<CR>
+map <silent> <C-n> :<C-u>NERDTreeToggle<CR>
+map <silent> <Leader>nf :<C-u>NERDTreeFind<CR>
 '''
 
 # comment out plugin
@@ -282,6 +283,8 @@ function! s:on_lsp_buffer_enabled() abort
   nmap <silent> [e <plug>(lsp-previous-error)
   nmap <silent> ]w <plug>(lsp-next-warning)
   nmap <silent> [w <plug>(lsp-previous-warning)
+  nmap <silent> ]h <plug>(lsp-next-diagnostic)
+  nmap <silent> [h <plug>(lsp-previous-diagnostic)
 
   nnoremap [vim-lsp] <Nop>
   nmap <Leader>l [vim-lsp]
