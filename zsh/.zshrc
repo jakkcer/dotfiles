@@ -29,14 +29,14 @@ if [ -f '/Users/jakkcer/Tool/google-cloud-sdk/completion.zsh.inc' ]; then . '/Us
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('/Users/jakkcer/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/Users/jakkcer/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/jakkcer/opt/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/anaconda3/bin:$PATH"
+        export PATH="/Users/jakkcer/opt/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -47,3 +47,6 @@ export PATH="$HOME/go/bin:$PATH"
 
 # latex path setting
 export PATH="/usr/local/texlive/2018/bin/x86_64-darwin:$PATH"
+
+# nodebrew path setting
+export PATH="$HOME/.nodebrew/current/bin:$PATH"
