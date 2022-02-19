@@ -39,11 +39,8 @@ else
         export PATH="/Users/jakkcer/opt/anaconda3/bin:$PATH"
     fi
 fi
-unset __conda_setup
-# <<< conda initialize <<<
 
-# go path setting
-export PATH="$HOME/go/bin:$PATH"
+alias chrome="open -a 'Google Chrome'"
 
 # latex path setting
 export PATH="/usr/local/texlive/2018/bin/x86_64-darwin:$PATH"

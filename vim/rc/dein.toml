@@ -38,9 +38,21 @@ augroup LucarioSetting
   autocmd VimEnter * highlight SignColumn ctermbg=236 " set bg color of git-gutter
   autocmd VimEnter * highlight Search cterm=NONE ctermfg=23 ctermbg=186 gui=NONE guifg=#2b3e50 guibg=#e6db74
 augroup END
+
 au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
 au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
 '''
+
+# [[plugins]]
+# repo = 'dracula/vim'
+# hook_add = '''
+# augroup DraculaSetting
+#   autocmd!
+#   autocmd VimEnter * nested colorscheme dracula
+# augroup END
+# au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-dracula\x7"
+# au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
+# '''
 
 # lightline.vim
 [[plugins]]
@@ -123,7 +135,7 @@ endfunction
 " vim-lsp diagnostic setting
 function! LightlineLSPWarnings() abort
   let l:counts = lsp#get_buffer_diagnostics_counts()
-  return l:counts.warning == 0 ? '' : printf('Warning:%d', l:counts.warning)
+  return (l:counts.warning == 0 && l:counts.hint == 0) ? '' : printf('Warning:%d', l:counts.warning + l:counts.hint)
 endfunction
 
 function! LightlineLSPErrors() abort
@@ -133,7 +145,7 @@ endfunction
 
 function! LightlineLSPOk() abort
   let l:counts =  lsp#get_buffer_diagnostics_counts()
-  let l:total = l:counts.error + l:counts.warning
+  let l:total = l:counts.error + l:counts.warning + l:counts.hint
   return l:total == 0 ? 'OK' : ''
 endfunction
 
@@ -204,7 +216,8 @@ let g:indentLine_color_term = 243
 [[plugins]]
 repo = 'preservim/nerdtree'
 hook_add = '''
-map <silent> <C-n> :NERDTreeToggle<CR>
+map <silent> <C-n> :<C-u>NERDTreeToggle<CR>
+map <silent> <Leader>nf :<C-u>NERDTreeFind<CR>
 '''
 
 # comment out plugin
@@ -247,6 +260,14 @@ let g:lsp_text_edit_enabled = 0
 let g:lsp_async_completion = 1
 let g:lsp_diagnostics_float_cursor = 1
 
+" Folding
+" set foldmethod=expr
+"   \ foldexpr=lsp#ui#vim#folding#foldexpr()
+"   \ foldtext=lsp#ui#vim#folding#foldtext()
+"   \ foldcolumn=2
+"   \ foldlevel=99
+"   \ nofoldenable
+
 augroup LspAutoFromatting
   autocmd!
   autocmd BufWritePre *.py,*.go LspDocumentFormatSync
@@ -262,6 +283,8 @@ function! s:on_lsp_buffer_enabled() abort
   nmap <silent> [e <plug>(lsp-previous-error)
   nmap <silent> ]w <plug>(lsp-next-warning)
   nmap <silent> [w <plug>(lsp-previous-warning)
+  nmap <silent> ]h <plug>(lsp-next-diagnostic)
+  nmap <silent> [h <plug>(lsp-previous-diagnostic)
 
   nnoremap [vim-lsp] <Nop>
   nmap <Leader>l [vim-lsp]
