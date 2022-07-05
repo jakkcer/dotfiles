@@ -40,7 +40,7 @@ augroup LucarioSetting
 augroup END
 
 au InitAutoCmd VimEnter * :silent !echo -e "\033]50;SetProfile=vim-lucario\x7"
-au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=jakkcer\x7"
+au InitAutoCmd VimLeave * :silent !echo -e "\033]50;SetProfile=spo-dev-operation\x7"
 '''
 
 # [[plugins]]
