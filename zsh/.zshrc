@@ -47,3 +47,5 @@ export PATH="/usr/local/texlive/2018/bin/x86_64-darwin:$PATH"
 
 # nodebrew path setting
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
+
+export PATH="$HOME/go/bin:$PATH"
