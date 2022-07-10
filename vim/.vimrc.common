@@ -1,0 +1,68 @@
+" Common vim setting for ideavim
+
+set scrolloff=7 " cursor scroll limit
+
+"------------------------------------------
+" Leader setting
+"------------------------------------------
+let mapleader="\<Space>"
+
+"------------------------------------------
+" string search
+"------------------------------------------
+set incsearch " incrimental search; search string for each input character
+set ignorecase " ignore capital/small case when search string
+set smartcase " if search pattern include capital case, distinct capital/small case
+set hlsearch " highlight search words
+" switch higlight or not
+nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
+
+"------------------------------------------
+" key mapping
+"------------------------------------------
+nnoremap L $
+vnoremap L $
+nnoremap H ^
+vnoremap H ^
+
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+nnoremap <Down> gj
+nnoremap <Up>   gk
+vnoremap <Down> gj
+vnoremap <Up>   gk
+
+nnoremap Y y$
+nnoremap x "_x
+vnoremap x "_x
+
+nnoremap gy gT
+
+" inoremap <C-h> <Left>
+" inoremap <C-j> <Down>
+" inoremap <C-k> <Up>
+" inoremap <C-l> <Right>
+
+nnoremap <C-i> <C-l>
+
+nnoremap <Leader><CR> o<ESC>
+nnoremap <Leader>wh <C-w>h
+nnoremap <Leader>wj <C-w>j
+nnoremap <Leader>wk <C-w>k
+nnoremap <Leader>wl <C-w>l
+" switch window and next window
+nnoremap <Leader>wx <C-w>x
+" switch horizontal splitted window to vertical
+nnoremap <Leader>wv <C-w>t<C-w>H
+" switch vertical splitted window to horizontal
+nnoremap <Leader>ws <C-w>t<C-w>K
+" open file in new tab on quickfix
+nnoremap <Leader>wt <C-w><CR><C-w>T
+nnoremap <Leader>w- <C-w>-
+nnoremap <Leader>w+ <C-w>+
+nnoremap <Leader>w> <C-w>>
+nnoremap <Leader>w< <C-w><
+nnoremap <Leader>h :<C-u>vert<Space>help<Space>
+nnoremap <Leader>hh :<C-u>help<Space><C-r><C-w>
