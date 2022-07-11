@@ -11,16 +11,25 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-# export PATH="/anaconda3/bin:$PATH"  # commented out by conda initialize
 
-# nodebrew path
-export PATH="$HOME/.nodebrew/current/bin:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+# PATH setting
+export PATH=/opt/homebrew/opt/python@3.9/libexec/bin:$PATH
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 
+# go path
+export GOPATH=$HOME/go
+export PATH=$GOPATH/bin:$PATH
+
+# alias setting
 alias chrome="open -a 'Google Chrome'"
+alias sshc="sh ~/.dotfiles/ssh_change_profile.sh"
 
-# jdk version
-export JAVA_HOME=`/usr/libexec/java_home -v "11"`
-export PATH="$JAVA_HOME/bin:$PATH"
+# Auto added scripts
+# ------------------------------------
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/rls01041917/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/rls01041917/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/rls01041917/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/rls01041917/google-cloud-sdk/completion.zsh.inc'; fi
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
