@@ -1,22 +1,24 @@
 [user]
-	email = jumpei_nitta@r.recruit.co.jp
-	name = jumpei-nitta
+  name = jumpei-nitta
+  email = jumpei_nitta@r.recruit.co.jp
 [core]
-	editor = vim -c \"set fenc=utf-8\"
+  editor = vim -c \"set fenc=utf-8\"
 [merge]
-	tool = vimdiff
-	conflictstyle = diff3
+  tool = vimdiff
+  conflictstyle = diff3
 [mergetool]
-	prompt = false
+  prompt = false
 [alias]
   b = branch -vva
   ch = checkout
   f = fetch -p
   grep = grep -np
+  pl = pull -p
   review = "!f() { git fetch -p; git switch -C review origin/${1}; }; f"
   st = status
   sw = switch
   tree = log --graph --date-order -C -M --pretty=format:'<%C(yellow)%h%Creset> %ad [%C(bold blue)%an%Creset] %C(auto)%d%Creset %s' --date=short
   trees = log --graph --date-order -C -M --pretty=format:'<%C(yellow)%h%Creset> %ad [%C(bold blue)%an%Creset] %C(auto)%d%Creset %s' --date=short --branches --remotes
+  up = push -u origin
 [pull]
   rebase = false
