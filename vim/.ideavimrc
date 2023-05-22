@@ -1,5 +1,5 @@
 "" Source your .vimrc
-"source ~/.vimrc
+source ~/.vim/.vimrc.common
 
 "" -- Suggested options --
 " Show a few lines of context around the cursor. Note that this makes the
@@ -27,30 +27,11 @@
 " Find more examples here: https://jb.gg/share-ideavimrc
 
 "------------------------------------------
-" Leader setting
-"------------------------------------------
-let mapleader=" "
-
-"------------------------------------------
-" string search
-"------------------------------------------
-set incsearch
-set ignorecase
-set smartcase
-set hlsearch
-nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
-
-"------------------------------------------
 " cursor
 "------------------------------------------
 set whichwrap=b,s,h,l,<,>,[,],~
 set cursorline
 set scrolloff=7
-" if line is wraped, move cursor by viewed line
-nnoremap j gj
-nnoremap k gk
-nnoremap <down> gj
-nnoremap <up> gk
 
 "------------------------------------------
 " key setting
@@ -66,19 +47,6 @@ set history=100
 "------------------------------------------
 " key mapping
 "------------------------------------------
-nnoremap <Leader><CR> o<ESC>
-nnoremap <Leader>wh <C-w>h
-nnoremap <Leader>wj <C-w>j
-nnoremap <Leader>wk <C-w>k
-nnoremap <Leader>wl <C-w>l
-nnoremap <Leader>wx <C-w>x
-nnoremap <Leader>wv <C-w>t<C-w>H
-nnoremap <Leader>ws <C-w>t<C-w>K
-nnoremap <Leader>wt <C-w><CR><C-w>T
-nnoremap Y y$
-nnoremap <C-h> :<C-u>vert<Space>help<Space>
-nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w>
-
 nnoremap <Leader>lh :action ShowErrorDescription<CR>
 nnoremap <Leader>ld :action GotoDeclaration<CR>
 nnoremap <Leader>lv :vs<CR>:action GotoDeclaration<CR>

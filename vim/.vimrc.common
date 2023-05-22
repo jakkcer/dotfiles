@@ -10,10 +10,14 @@ let mapleader="\<Space>"
 "------------------------------------------
 " string search
 "------------------------------------------
-set incsearch " incrimental search; search string for each input character
-set ignorecase " ignore capital/small case when search string
-set smartcase " if search pattern include capital case, distinct capital/small case
-set hlsearch " highlight search words
+" incrimental search; search string for each input character
+set incsearch
+" ignore capital/small case when search string
+set ignorecase
+" if search pattern include capital case, distinct capital/small case
+set smartcase
+" highlight search words
+set hlsearch
 " switch higlight or not
 nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 
@@ -46,6 +50,9 @@ nnoremap gy gT
 " inoremap <C-l> <Right>
 
 nnoremap <C-i> <C-l>
+
+inoremap <silent> jj <ESC>
+vnoremap <silent> q <ESC>
 
 nnoremap <Leader><CR> o<ESC>
 nnoremap <Leader>wh <C-w>h
