@@ -20,6 +20,9 @@ nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 "------------------------------------------
 " key mapping
 "------------------------------------------
+inoremap <silent> jj <ESC>
+vnoremap <silent> q <ESC>
+
 nnoremap L $
 vnoremap L $
 nnoremap H ^
