@@ -1,4 +1,4 @@
-#!bin/sh
+#!/bin/sh
 
 # git
 ln -sfv ~/.dotfiles/.gitconfig ~
